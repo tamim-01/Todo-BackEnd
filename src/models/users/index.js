@@ -1,4 +1,4 @@
-import { query } from "../../core/database-manager/postgres-service.js";
+import { query } from "../../core/database/postgres-service.js";
 import format from "pg-format";
 const SCHEMA = "public";
 const NAME = "users";

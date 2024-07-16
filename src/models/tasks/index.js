@@ -1,4 +1,4 @@
-import { query } from "../../core/database-manager/postgres-service.js";
+import { query } from "../../core/database/postgres-service.js";
 import format from "pg-format";
 const SCHEMA = "public";
 const NAME = "tasks";
@@ -33,7 +33,7 @@ export async function getTaskById(id) {
 export async function createTask(userId, title, description, taskdate) {
   const sqlQuery = `INSERT INTO ${SCHEMA}.${NAME} (user_id ,title, description , taskdate , is_completed)
     VALUES
-      ( $1 , $2 , $3 , 4$ , false );`;
+      ( $1 , $2 , $3 , $4 , false );`;
 
   const sqlVariables = [userId, title, description, taskdate];
   return query(sqlQuery, sqlVariables);
