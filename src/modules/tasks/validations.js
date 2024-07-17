@@ -57,8 +57,47 @@ const createTaskValidator = async (req, res, next) => {
   }
 };
 
+const deleteTaskByIdValidator = async (req, res, next) => {
+  try {
+    const paramsSchema = Joi.object({
+      id: Joi.number().integer().positive().required(),
+    });
+
+    const validatedParams = await paramsSchema.validateAsync(req.params);
+    req.validatedParams = validatedParams;
+    next();
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+const updateTaskByIdValidator = async (req, res, next) => {
+  try {
+    const paramsSchema = Joi.object({
+      id: Joi.number().integer().positive().required(),
+    });
+
+    const bodySchema = Joi.object({
+      title: Joi.string().min(1).max(100).optional(),
+      description: Joi.string().allow("").max(500).optional(),
+      is_completed: Joi.boolean().optional(),
+    }).min(1);
+
+    const validatedParams = await paramsSchema.validateAsync(req.params);
+    const validatedBody = await bodySchema.validateAsync(req.body);
+
+    req.validatedParams = validatedParams;
+    req.validatedBody = validatedBody;
+
+    next();
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
 export {
   getAlltaskByUserIdValidaitor,
   createTaskValidator,
   getTaskByIdValidaitor,
+  deleteTaskByIdValidator,
+  updateTaskByIdValidator,
 };

@@ -89,9 +89,112 @@ const createTaskController = async (req, res) => {
   }
 };
 
+const deleteTaskByIdController = async (req, res) => {
+  try {
+    const taskID = req.validatedParams.id;
+    const deleteResult = await deleteTaskByIdService(taskID);
+    if (deleteResult === null) {
+      res.status(424).json({
+        message: `task with id=${taskID} not deleted!!`,
+      });
+    } else {
+      res.status(201).json({
+        message: `task with id=${taskID} is deleted`,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const deleteAllTasksController = async (req, res) => {
+  try {
+    const deleteResult = await deleteAllTasksService();
+    if (deleteResult === null) {
+      res.status(424).json({
+        message: `there is no task to delete`,
+      });
+    } else {
+      res.status(201).json({
+        message: `${deleteResult["rowCount"]} rows of tasks deleted successfully`,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+const updateTaskByIdController = async (req, res) => {
+  try {
+    const taskID = req.validatedParams.id;
+    const updateList = req.validatedBody;
+    const columns = Object.keys(updateList);
+    let allUpdatesSuccessful = true;
+
+    for (const column of columns) {
+      const updateResult = await updateTaskByIdService(
+        taskID,
+        column,
+        updateList[column]
+      );
+
+      if (updateResult === null) {
+        allUpdatesSuccessful = false;
+        break;
+      }
+    }
+
+    if (allUpdatesSuccessful) {
+      res.status(200).json({
+        message: `Task with id=${taskID} has been updated successfully.`,
+      });
+      console.log(`Task with id=${taskID} has been updated successfully.`);
+    } else {
+      res.status(400).json({
+        message: `Failed to update task with id=${taskID}.`,
+      });
+      console.log(`Failed to update task with id=${taskID}.`);
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: `error.message`,
+    });
+  }
+};
+const updateAllTasksAsCompletedController = async (req, res) => {
+  try {
+    const updateResult = await updateAllTasksService("is_completed", true);
+    if (updateResult === null) {
+      res.status(424).json({
+        message: `there is no task to update`,
+      });
+    } else {
+      res.status(201).json({
+        message: `${updateResult["rowCount"]} rows of tasks updated to is completed successfully`,
+      });
+      console.log(
+        `${updateResult["rowCount"]} rows of tasks updated to is completed successfully`
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 export {
   getTaskByIdController,
   getAllTasksController,
   getAllTasksByUserIDController,
   createTaskController,
+  deleteTaskByIdController,
+  deleteAllTasksController,
+  updateTaskByIdController,
+  updateAllTasksAsCompletedController,
 };
