@@ -3,6 +3,7 @@ import {
   getUSerByIdController,
   createUserController,
   updateUserDataByIdController,
+  loginUserController,
 } from "./controllers.js";
 
 import {
@@ -13,10 +14,15 @@ import {
 
 const router = express.Router();
 
-router.get("/:id", getUserByIdValidator, getUSerByIdController);
+router.get("/user/:id", getUserByIdValidator, getUSerByIdController);
 
-router.post("", createUserValidator, createUserController);
+router.post("/signup", createUserValidator, createUserController);
+router.post("/signin", loginUserController);
 
-router.put("/:id", updateUserDataByIdValidator, updateUserDataByIdController);
+router.put(
+  "/user/:id",
+  updateUserDataByIdValidator,
+  updateUserDataByIdController
+);
 
 export { router };

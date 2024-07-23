@@ -7,5 +7,7 @@ const PG_SECRETS = {
   port: process.env.PGPORT,
   ssl: process.env.PGSSL,
 };
-export { PG_SECRETS, My_PORT };
-const My_PORT = process.env.MY_PORT;
+const JWT_SECRETS = {
+  signKey: process.env["SIGN_KEY"],
+};
+export { PG_SECRETS, JWT_SECRETS };

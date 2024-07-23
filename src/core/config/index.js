@@ -1,5 +1,8 @@
-import { My_PORT } from "../secrets/index.js";
 const EXPRESS_APP = {
-  port: My_PORT,
+  port: process.env.MY_PORT,
 };
-export { EXPRESS_APP };
+const BCRYPT_CONFIG = {
+  rounds: process.env["BCRYPTE_ROUNDS"],
+};
+
+export { EXPRESS_APP, BCRYPT_CONFIG };
