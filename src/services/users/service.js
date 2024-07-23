@@ -11,8 +11,8 @@ async function getUserByIdService(id) {
   }
   return user[0];
 }
-async function createUserService(userName, password) {
-  const createResult = await createUser(userName, password);
+async function createUserService(userName, password, role) {
+  const createResult = await createUser(userName, password, role);
   if (
     createResult["rowCount"] <= 0 ||
     createResult === undefined ||
