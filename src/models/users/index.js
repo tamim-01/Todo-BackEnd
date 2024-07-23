@@ -12,12 +12,12 @@ export async function getUserById(id) {
 
   return (await query(sqlQuery, sqlVariables)).rows;
 }
-export async function createUser(userName, password) {
-  const sqlQuery = `INSERT INTO ${SCHEMA}.${NAME} (username , password)
+export async function createUser(userName, password, role) {
+  const sqlQuery = `INSERT INTO ${SCHEMA}.${NAME} (username , password , role)
     VALUES
-      ( $1 , $2 );`;
+      ( $1 , $2 , $3 );`;
 
-  const sqlVariables = [userName, password];
+  const sqlVariables = [userName, password, role];
   return query(sqlQuery, sqlVariables);
 }
 export async function updateUserDataById(id, column, value) {
