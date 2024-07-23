@@ -2,6 +2,7 @@ import {
   getUserByIdService,
   createUserService,
   updateUserDataByIdService,
+  validateUSerLoginService,
 } from "../../services/users/service.js";
 
 const getUSerByIdController = async (req, res, next) => {
@@ -81,8 +82,21 @@ const updateUserDataByIdController = async (req, res) => {
     });
   }
 };
+const loginUserController = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const jwt = await validateUSerLoginService(username, password);
+    res.status(200).json({ jwt: jwt });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({
+      message: error.message,
+    });
+  }
+};
 export {
   getUSerByIdController,
   createUserController,
   updateUserDataByIdController,
+  loginUserController,
 };

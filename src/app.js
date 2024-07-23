@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(apiLogger);
 
 app.use("/api/tasks", tasksRouter);
-app.use("/api/user", userRouter);
+app.use("/api", userRouter);
 app.use(routeNotFound);
 const port = EXPRESS_APP.port;
 app.listen(port, () => {

@@ -27,7 +27,15 @@ export async function updateUserDataById(id, column, value) {
     NAME,
     column
   );
+
   const sqlVariables = [value, id];
 
   return query(sqlQuery, sqlVariables);
+}
+export async function getUserByUSerName(userName) {
+  const sqlQuery = `select * from ${SCHEMA}.${NAME}
+  where username = $1`;
+
+  const sqlVariables = [userName];
+  return (await query(sqlQuery, sqlVariables)).rows[0];
 }
