@@ -7,20 +7,21 @@ import {
 } from "./controllers.js";
 
 import {
-  getUserByIdValidator,
   createUserValidator,
   updateUserDataByIdValidator,
 } from "./validations.js";
+import { authValidationMiddleware } from "../../core/middleware/auth-middlewares.js";
 
 const router = express.Router();
 
-router.get("/user/:id", getUserByIdValidator, getUSerByIdController);
+router.get("/user", authValidationMiddleware, getUSerByIdController);
 
 router.post("/signup", createUserValidator, createUserController);
 router.post("/signin", loginUserController);
 
 router.put(
-  "/user/:id",
+  "/user",
+  authValidationMiddleware,
   updateUserDataByIdValidator,
   updateUserDataByIdController
 );

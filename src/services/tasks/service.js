@@ -1,5 +1,4 @@
 import {
-  getTasks,
   getTaskById,
   createTask,
   deleteTaskById,
@@ -9,19 +8,12 @@ import {
   getTasksByUserId,
 } from "../../models/tasks/index.js";
 
-async function getTaskByIdService(id) {
-  const task = await getTaskById(id);
+async function getTaskByIdService(id, userId) {
+  const task = await getTaskById(id, userId);
   if (!task || task.length <= 0) {
     return null;
   }
   return task[0];
-}
-async function getAllTasksService() {
-  const tasks = await getTasks();
-  if (tasks.length <= 0 || tasks === null || tasks === undefined) {
-    return null;
-  }
-  return tasks;
 }
 async function getAllTasksByUserIdService(userId) {
   const tasks = await getTasksByUserId(userId);
@@ -42,8 +34,8 @@ async function createTaskService(userId, title, description, taskdate) {
   }
   return createResult;
 }
-async function deleteTaskByIdService(id) {
-  const deleteResult = await deleteTaskById(id);
+async function deleteTaskByIdService(id, userId) {
+  const deleteResult = await deleteTaskById(id, userId);
   if (
     deleteResult["rowCount"] <= 0 ||
     deleteResult === undefined ||
@@ -53,8 +45,8 @@ async function deleteTaskByIdService(id) {
   }
   return deleteResult;
 }
-async function deleteAllTasksService() {
-  const deleteResult = await deleteAllTasks();
+async function deleteAllTasksService(userId) {
+  const deleteResult = await deleteAllTasks(userId);
   if (
     deleteResult["rowCount"] <= 0 ||
     deleteResult === undefined ||
@@ -64,8 +56,8 @@ async function deleteAllTasksService() {
   }
   return deleteResult;
 }
-async function updateTaskByIdService(id, column, value) {
-  const updateResult = await updateTaskById(id, column, value);
+async function updateTaskByIdService(userId, id, column, value) {
+  const updateResult = await updateTaskById(userId, id, column, value);
   if (
     updateResult["rowCount"] <= 0 ||
     updateResult === undefined ||
@@ -75,8 +67,8 @@ async function updateTaskByIdService(id, column, value) {
   }
   return updateResult;
 }
-async function updateAllTasksService(column, value) {
-  const updateResult = await updateAllTasks(column, value);
+async function updateAllTasksService(userId, column, value) {
+  const updateResult = await updateAllTasks(userId, column, value);
   if (
     updateResult["rowCount"] <= 0 ||
     updateResult === undefined ||
@@ -88,7 +80,6 @@ async function updateAllTasksService(column, value) {
 }
 export {
   getTaskByIdService,
-  getAllTasksService,
   createTaskService,
   deleteTaskByIdService,
   deleteAllTasksService,
