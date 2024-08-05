@@ -1,6 +1,5 @@
 import {
   getTaskByIdService,
-  getAllTasksService,
   createTaskService,
   deleteTaskByIdService,
   deleteAllTasksService,
@@ -11,11 +10,12 @@ import {
 
 const getTaskByIdController = async (req, res, next) => {
   try {
+    const userId = req.user.id;
     const taskID = req.validatedParams.id;
-    const task = await getTaskByIdService(taskID);
+    const task = await getTaskByIdService(taskID, userId);
     if (task === null) {
       res.status(404).json({
-        message: `task with id=${taskID} not exist`,
+        message: `task with id=${taskID} from user=${userId} not exist`,
       });
     } else {
       res.status(200).json(task);
@@ -27,26 +27,10 @@ const getTaskByIdController = async (req, res, next) => {
     });
   }
 };
-const getAllTasksController = async (req, res) => {
-  try {
-    const data = await getAllTasksService();
-    if (data === null) {
-      res
-        .status(404)
-        .json({ message: "there is no task to show or an error happend" });
-    } else {
-      res.status(200).json(data);
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+
 const getAllTasksByUserIDController = async (req, res) => {
   try {
-    const userId = req.validatedParams.user_id;
+    const userId = req.user.id;
     const data = await getAllTasksByUserIdService(userId);
     if (data === null) {
       res
@@ -64,7 +48,10 @@ const getAllTasksByUserIDController = async (req, res) => {
 };
 const createTaskController = async (req, res) => {
   try {
-    const { user_id, title, description, taskdate } = req.validatedBody;
+    const user_id = req.user.id;
+    const { title, description, taskdate } = req.validatedBody;
+    console.log(user_id);
+
     const createResult = await createTaskService(
       user_id,
       title,
@@ -91,8 +78,9 @@ const createTaskController = async (req, res) => {
 
 const deleteTaskByIdController = async (req, res) => {
   try {
+    const userId = req.user.id;
     const taskID = req.validatedParams.id;
-    const deleteResult = await deleteTaskByIdService(taskID);
+    const deleteResult = await deleteTaskByIdService(taskID, userId);
     if (deleteResult === null) {
       res.status(424).json({
         message: `task with id=${taskID} not deleted!!`,
@@ -111,7 +99,8 @@ const deleteTaskByIdController = async (req, res) => {
 };
 const deleteAllTasksController = async (req, res) => {
   try {
-    const deleteResult = await deleteAllTasksService();
+    const userId = req.user.id;
+    const deleteResult = await deleteAllTasksService(userId);
     if (deleteResult === null) {
       res.status(424).json({
         message: `there is no task to delete`,
@@ -130,6 +119,7 @@ const deleteAllTasksController = async (req, res) => {
 };
 const updateTaskByIdController = async (req, res) => {
   try {
+    const userId = req.user.id;
     const taskID = req.validatedParams.id;
     const updateList = req.validatedBody;
     const columns = Object.keys(updateList);
@@ -137,6 +127,7 @@ const updateTaskByIdController = async (req, res) => {
 
     for (const column of columns) {
       const updateResult = await updateTaskByIdService(
+        userId,
         taskID,
         column,
         updateList[column]
@@ -168,7 +159,12 @@ const updateTaskByIdController = async (req, res) => {
 };
 const updateAllTasksAsCompletedController = async (req, res) => {
   try {
-    const updateResult = await updateAllTasksService("is_completed", true);
+    const userId = req.user.id;
+    const updateResult = await updateAllTasksService(
+      userId,
+      "is_completed",
+      true
+    );
     if (updateResult === null) {
       res.status(424).json({
         message: `there is no task to update`,
@@ -190,7 +186,6 @@ const updateAllTasksAsCompletedController = async (req, res) => {
 };
 export {
   getTaskByIdController,
-  getAllTasksController,
   getAllTasksByUserIDController,
   createTaskController,
   deleteTaskByIdController,

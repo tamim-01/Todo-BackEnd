@@ -13,20 +13,7 @@ const getTaskByIdValidaitor = async (req, res, next) => {
     res.status(400).json({ message: err.message });
   }
 };
-const getAlltaskByUserIdValidaitor = async (req, res, next) => {
-  try {
-    const paramsSchema = Joi.object({
-      user_id: Joi.number().required(),
-    }).required();
 
-    const validationParams = await paramsSchema.validateAsync(req.params);
-    req.validatedParams = validationParams;
-
-    next();
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
 const createTaskValidator = async (req, res, next) => {
   try {
     const bodySchema = Joi.object({
@@ -95,7 +82,6 @@ const updateTaskByIdValidator = async (req, res, next) => {
   }
 };
 export {
-  getAlltaskByUserIdValidaitor,
   createTaskValidator,
   getTaskByIdValidaitor,
   deleteTaskByIdValidator,

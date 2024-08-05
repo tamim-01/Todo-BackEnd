@@ -1,18 +1,5 @@
 import Joi from "joi";
 
-const getUserByIdValidator = async (req, res, next) => {
-  try {
-    const paramsSchema = Joi.object({
-      id: Joi.number().integer().positive().required(),
-    });
-
-    const validatedParams = await paramsSchema.validateAsync(req.params);
-    req.validatedParams = validatedParams;
-    next();
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
 const createUserValidator = async (req, res, next) => {
   try {
     const bodySchema = Joi.object({
@@ -32,10 +19,6 @@ const createUserValidator = async (req, res, next) => {
 };
 const updateUserDataByIdValidator = async (req, res, next) => {
   try {
-    const paramsSchema = Joi.object({
-      id: Joi.number().integer().positive().required(),
-    });
-
     const bodySchema = Joi.object({
       username: Joi.string().alphanum().min(3).max(30).optional(),
       password: Joi.string()
@@ -43,10 +26,8 @@ const updateUserDataByIdValidator = async (req, res, next) => {
         .optional(),
     }).min(1);
 
-    const validatedParams = await paramsSchema.validateAsync(req.params);
     const validatedBody = await bodySchema.validateAsync(req.body);
 
-    req.validatedParams = validatedParams;
     req.validatedBody = validatedBody;
 
     next();
@@ -54,9 +35,19 @@ const updateUserDataByIdValidator = async (req, res, next) => {
     res.status(400).json({ message: err.message });
   }
 };
+// const loginUserValidator = async (req, res, next) => {
+//   try {
+//     const bodySchema = Joi.object({
+//       username: Joi.string().required().trim(),
+//       password: Joi.string().required(),
+//     }).required();
 
-export {
-  getUserByIdValidator,
-  createUserValidator,
-  updateUserDataByIdValidator,
-};
+//     const validationBody = await bodySchema.validateAsync(req.body);
+//     req.validatedBody = validationBody;
+
+//     next();
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
+export { createUserValidator, updateUserDataByIdValidator };

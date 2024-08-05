@@ -2,15 +2,15 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRETS } from "../secrets/index.js";
 
 function jwtSign(data) {
-  return jwt.sign(data, JWT_SECRETS.signKey);
+  return jwt.sign(data, JWT_SECRETS.signKey, { expiresIn: "1m" });
 }
 
-function jwtValidate(jwt) {
+function jwtValidate(jwtToken) {
   try {
-    return jwt.verify(jwt, JWT_SECRETS.signKey);
-  } catch (err) {
-    console.log(err);
-    return null;
+    return jwt.verify(jwtToken, JWT_SECRETS.signKey);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Invalid JWT Token!");
   }
 }
 

@@ -15,7 +15,6 @@ async function getUserByIdService(id) {
 }
 async function createUserService(userName, password, role) {
   const encryptedPassword = await hash(password);
-  console.log(encryptedPassword);
   const createResult = await createUser(userName, encryptedPassword, role);
   if (
     createResult["rowCount"] <= 0 ||
@@ -38,11 +37,12 @@ async function updateUserDataByIdService(id, column, value) {
   }
   return updateResult;
 }
-async function validateUSerLoginService(userName, password) {
+async function validateUserLoginService(userName, password) {
   const user = await getUserByUSerName(userName);
   if (!user) {
     throw new Error("Username or Password is not correct.");
   }
+
   const validatedHash = await validateHash(password, user.password);
   if (!validatedHash) {
     throw new Error("Username or Password is not correct.");
@@ -59,5 +59,5 @@ export {
   getUserByIdService,
   createUserService,
   updateUserDataByIdService,
-  validateUSerLoginService,
+  validateUserLoginService,
 };
