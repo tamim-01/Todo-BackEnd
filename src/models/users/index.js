@@ -12,7 +12,7 @@ export async function getUserById(id) {
 
   return (await query(sqlQuery, sqlVariables)).rows;
 }
-export async function createUser(userName, password, role) {
+export async function createUser(userName, password, role = "user") {
   const sqlQuery = `INSERT INTO ${SCHEMA}.${NAME} (username , password , role)
     VALUES
       ( $1 , $2 , $3 );`;

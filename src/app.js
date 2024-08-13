@@ -4,7 +4,10 @@ import { router as userRouter } from "./modules/users/routes.js";
 import { EXPRESS_APP } from "./core/config/index.js";
 import { apiLogger, routeNotFound } from "./core/middleware/middlewares.js";
 import { authValidationMiddleware } from "./core/middleware/auth-middlewares.js";
+import cors from "cors";
 const app = express();
+
+app.use(cors());
 app.use(express.json());
 app.use(apiLogger);
 
