@@ -50,7 +50,6 @@ const createTaskController = async (req, res) => {
   try {
     const user_id = req.user.id;
     const { title, description, taskdate } = req.validatedBody;
-    console.log(user_id);
 
     const createResult = await createTaskService(
       user_id,

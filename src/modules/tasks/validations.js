@@ -17,7 +17,6 @@ const getTaskByIdValidaitor = async (req, res, next) => {
 const createTaskValidator = async (req, res, next) => {
   try {
     const bodySchema = Joi.object({
-      user_id: Joi.number().integer().positive().required(),
       title: Joi.string().required().trim().max(255),
       description: Joi.string().allow("").max(1000),
       taskdate: Joi.string()
