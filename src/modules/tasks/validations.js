@@ -56,7 +56,6 @@ const deleteTaskByIdValidator = async (req, res, next) => {
     res.status(400).json({ message: err.message });
   }
 };
-
 const updateTaskByIdValidator = async (req, res, next) => {
   try {
     const paramsSchema = Joi.object({
@@ -67,6 +66,7 @@ const updateTaskByIdValidator = async (req, res, next) => {
       title: Joi.string().min(1).max(100).optional(),
       description: Joi.string().allow("").max(500).optional(),
       is_completed: Joi.boolean().optional(),
+      taskdate: Joi.date().iso().optional(), // Added taskdate validation
     }).min(1);
 
     const validatedParams = await paramsSchema.validateAsync(req.params);
