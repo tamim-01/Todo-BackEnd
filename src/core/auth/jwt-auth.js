@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { JWT_SECRETS } from "../secrets/index.js";
 
 function jwtSign(data) {
-  return jwt.sign(data, JWT_SECRETS.signKey, { expiresIn: "1m" });
+  return jwt.sign(data, JWT_SECRETS.signKey, { expiresIn: "1440m" });
 }
 
 function jwtValidate(jwtToken) {
