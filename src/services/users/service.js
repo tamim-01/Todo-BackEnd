@@ -13,9 +13,14 @@ async function getUserByIdService(id) {
   }
   return user[0];
 }
-async function createUserService(userName, password, role) {
+async function createUserService(userName, password, role, avatar) {
   const encryptedPassword = await hash(password);
-  const createResult = await createUser(userName, encryptedPassword, role);
+  const createResult = await createUser(
+    userName,
+    encryptedPassword,
+    role,
+    avatar
+  );
   if (
     createResult["rowCount"] <= 0 ||
     createResult === undefined ||
@@ -26,8 +31,8 @@ async function createUserService(userName, password, role) {
   return createResult;
 }
 
-async function updateUserDataByIdService(id, column, value) {
-  const updateResult = await updateUserDataById(id, column, value);
+async function updateUserDataByIdService(id, column, value, avatar) {
+  const updateResult = await updateUserDataById(id, column, value, avatar);
   if (
     updateResult["rowCount"] <= 0 ||
     updateResult === undefined ||
@@ -39,6 +44,8 @@ async function updateUserDataByIdService(id, column, value) {
 }
 async function validateUserLoginService(userName, password) {
   const user = await getUserByUSerName(userName);
+  console.log(user);
+
   if (!user) {
     throw new Error("Username or Password is not correct.");
   }
@@ -51,6 +58,7 @@ async function validateUserLoginService(userName, password) {
     id: user.user_id,
     username: user.username,
     role: user.role,
+    avatar: user.avatar_src,
   };
   const userJwt = jwtSign(jwtUSerData);
   return userJwt;

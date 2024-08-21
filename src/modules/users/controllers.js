@@ -25,8 +25,13 @@ const getUSerByIdController = async (req, res, next) => {
 };
 const createUserController = async (req, res) => {
   try {
-    const { username, password, role } = req.validatedBody;
-    const createResult = await createUserService(username, password, role);
+    const { username, password, role, avatar } = req.validatedBody;
+    const createResult = await createUserService(
+      username,
+      password,
+      role,
+      avatar
+    );
     if (createResult === null) {
       res.status(424).json({
         message: `user with name ${username} not created!!`,
