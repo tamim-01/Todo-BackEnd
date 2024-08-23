@@ -44,7 +44,6 @@ async function updateUserDataByIdService(id, column, value, avatar) {
 }
 async function validateUserLoginService(userName, password) {
   const user = await getUserByUSerName(userName);
-  console.log(user);
 
   if (!user) {
     throw new Error("Username or Password is not correct.");
@@ -63,6 +62,7 @@ async function validateUserLoginService(userName, password) {
   const userJwt = jwtSign(jwtUSerData);
   return userJwt;
 }
+
 export {
   getUserByIdService,
   createUserService,
