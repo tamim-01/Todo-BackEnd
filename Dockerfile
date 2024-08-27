@@ -6,7 +6,9 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install dependencies
+
+
+# Install npm packages and rebuild bcrypt
 RUN npm install
 
 # Copy the rest of the application code
