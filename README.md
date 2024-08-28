@@ -1,8 +1,10 @@
 # Todo List Backend
-
+##Authors
+This project was created by Tamim Yousefi and Sepehr Sharafi.
+you can find the frontend in my repositories too.
 ## Overview
 This is the backend for a Todo List application, which includes user management capabilities and integrates with a PostgreSQL database. The backend is built using [Node.js/Express].
-you can find the frontend in my repositories too.
+
 ## Features
 - User registration and login
 - Task management (create, read, update, delete tasks)
